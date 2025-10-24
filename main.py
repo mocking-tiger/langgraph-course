@@ -40,6 +40,23 @@ graph.get_graph().draw_mermaid_png(output_file_path="flow.png")
 
 def main():
   print("main함수 실행")
+  inputs = {
+        "messages": [
+            HumanMessage(
+                content="""Make this tweet better:"
+                                    @LangChainAI
+            — newly Tool Calling feature is seriously underrated.
+
+            After a long wait, it's  here- making the implementation of agents across different models with function calling - super easy.
+
+            Made a video covering their newest blog post
+
+                                  """
+            )
+        ]
+    }
+  response = graph.invoke(inputs)
+  print(response)
 
 if __name__ == "__main__":
   main()
