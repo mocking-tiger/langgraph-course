@@ -214,3 +214,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Vector databases
+# Chroma vector database files (regenerate with ingestion.py)
+.chroma/
