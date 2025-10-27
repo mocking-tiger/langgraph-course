@@ -5,8 +5,13 @@ load_dotenv()
 
 # retrieval_grader 체인과 결과 스키마 임포트
 from graph.chains.retrieval_grader import GradeDocuments, retrieval_grader
+# generation 체인 임포트
+from graph.chains.generation import generation_chain
 # ingestion.py에서 생성한 벡터 DB retriever 임포트
 from ingestion import retriever
+# pprint 모듈 임포트
+from pprint import pprint
+
 
 # 테스트 1: Retrieval Grader가 관련 있는 문서에 대해 'yes'를 반환하는지 검증
 def test_retrival_grader_answer_yes() -> None:
@@ -44,3 +49,9 @@ def test_retrival_grader_answer_no() -> None:
 
     # 결과가 'no'인지 확인 (관련 없는 문서이므로)
     assert res.binary_score == "no"
+
+def test_generation_chain() -> None:
+    question = "agent memory"
+    docs = retriever.invoke(question)
+    generation = generation_chain.invoke({"context": docs, "question": question})
+    pprint(generation)
