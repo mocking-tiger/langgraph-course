@@ -18,7 +18,8 @@ dependencies = [
     "python-dotenv (>=1.2.1,<2.0.0)",
     "black (>=25.9.0,<26.0.0)",
     "isort (>=7.0.0,<8.0.0)",
-    "pytest (>=8.4.2,<9.0.0)"
+    "pytest (>=8.4.2,<9.0.0)",
+    "langchain-chroma (>=1.0.0,<2.0.0)"
 ]
 
 

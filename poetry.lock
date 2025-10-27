@@ -1494,6 +1494,23 @@ together = ["langchain-together"]
 xai = ["langchain-xai"]
 
 [[package]]
+name = "langchain-chroma"
+version = "1.0.0"
+description = "An integration package connecting Chroma and LangChain."
+optional = false
+python-versions = "<4.0.0,>=3.10.0"
+groups = ["main"]
+files = [
+    {file = "langchain_chroma-1.0.0-py3-none-any.whl", hash = "sha256:b7adb991090f066f8d5e746a2d338de3116b192cec3990deef3052b7ea07324c"},
+    {file = "langchain_chroma-1.0.0.tar.gz", hash = "sha256:ee82c6fbd0c94e5e9942e3b9302f69deea6c58c0e957ff16de6066d896d7a34a"},
+]
+
+[package.dependencies]
+chromadb = ">=1.0.20,<2.0.0"
+langchain-core = ">=1.0.0,<2.0.0"
+numpy = {version = ">=2.1.0", markers = "python_version >= \"3.13\""}
+
+[[package]]
 name = "langchain-classic"
 version = "1.0.0"
 description = "Building applications with LLMs through composability"
@@ -4870,4 +4887,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0.0"
-content-hash = "c07924b2b36ac90fbea217c5e941f2e3399be9f2446fc85c1be4b7d267f3e970"
+content-hash = "e2139598ef6f5f7f477a93972eabaf3cb9bc2a9d2638e6b2c0915decf76c74d4"
