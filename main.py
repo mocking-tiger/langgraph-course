@@ -11,7 +11,7 @@ def main():
     print("main함수 실행")
     # 그래프에 질문을 입력하여 실행
     # 플로우: RETRIEVE → GRADE_DOCUMENTS → (WEBSEARCH?) → GENERATE
-    print(app.invoke({"question": "what is agent memory?"}))
+    print(app.invoke({"question": "what is agent memory? answer in korean."}))
 
 # 직접 실행 시 메인 함수 호출
 if __name__ == "__main__":

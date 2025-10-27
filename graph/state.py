@@ -9,9 +9,11 @@ class GraphState(TypedDict):
         generation: LLM generation
         web_search: whether to add search
         documents: list of documents
+        retry_count: number of generation retries (for hallucination prevention)
     """
 
     question: str
     generation: str
     web_search: bool
     documents: List[str]
+    retry_count: int  # 재시도 횟수 추적

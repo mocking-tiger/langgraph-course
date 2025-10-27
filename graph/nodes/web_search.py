@@ -26,10 +26,20 @@ def web_search(state: GraphState) -> Dict[str, Any]:
 
     # Tavily API를 사용하여 질문에 대한 웹 검색 수행
     tavily_results = web_search_tool.invoke({"query": question})
-    # 검색 결과들의 content를 줄바꿈으로 연결하여 하나의 문자열로 만듦
-    joined_tavily_result = "\n".join(
-        [tavily_result["content"] for tavily_result in tavily_results]
-    )
+
+    # Tavily 반환 형식 처리: 문자열이면 그대로 사용, 리스트면 content 추출
+    if isinstance(tavily_results, str):
+        # 문자열로 반환된 경우 (최신 TavilySearch 형식)
+        joined_tavily_result = tavily_results
+    elif isinstance(tavily_results, list):
+        # 리스트로 반환된 경우 (구 버전 형식)
+        joined_tavily_result = "\n".join(
+            [tavily_result["content"] for tavily_result in tavily_results]
+        )
+    else:
+        # 예상치 못한 형식인 경우 빈 문자열 사용
+        joined_tavily_result = ""
+
     # 검색 결과를 LangChain Document 객체로 변환
     web_results = Document(page_content=joined_tavily_result)
     # 기존 문서 목록이 있으면 웹 검색 결과를 추가

@@ -14,9 +14,15 @@ def generate(state: GraphState) -> Dict[str, Any]:
     question = state["question"]
     # State에서 검색 및 필터링된 문서 목록 추출
     documents = state["documents"]
+    # State에서 재시도 횟수 가져오기 (기본값 0)
+    retry_count = state.get("retry_count", 0)
 
     # generation_chain을 사용하여 문서와 질문을 바탕으로 답변 생성
     # context: 검색된 문서들, question: 사용자 질문
     generation = generation_chain.invoke({"context": documents, "question": question})
-    # 문서, 질문, 생성된 답변을 반환하여 State 업데이트
-    return {"documents": documents, "question": question, "generation": generation}
+
+    # 재시도 횟수 증가 (hallucination 방지 재시도용)
+    retry_count += 1
+
+    # 문서, 질문, 생성된 답변, 재시도 횟수를 반환하여 State 업데이트
+    return {"documents": documents, "question": question, "generation": generation, "retry_count": retry_count}
