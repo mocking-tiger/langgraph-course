@@ -20,3 +20,10 @@ class AnswerQuestion(BaseModel):
     reflection:Reflection = Field(description="Your Reflection on the initial answer.")
     # search_queries 필드: 답변 개선을 위해 추가 조사가 필요한 1~3개의 검색 쿼리 목록
     search_queries:List[str] = Field(description="1~3 search queries for researching improvements to address the critique of your current answer.")
+
+class ReviseAnswer(AnswerQuestion):
+    """Revise your original answer to your question."""
+
+    references: List[str] = Field(
+        description="Citations motivating your updated answer."
+    )
