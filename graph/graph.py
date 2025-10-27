@@ -15,6 +15,9 @@ from graph.state import GraphState
 from graph.chains.hallucination_grader import hallucination_grader
 # answer_grader 체인 임포트
 from graph.chains.answer_grader import answer_grader
+# router 체인 임포트
+from graph.chains.router import question_router, RouteQuery
+
 
 # 조건부 엣지 함수: 문서 평가 결과에 따라 웹 검색 또는 답변 생성으로 분기
 def decide_to_generate(state):
@@ -74,6 +77,18 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
         print(f"---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY ({retry_count + 1}/{MAX_RETRIES})---")
         return "not supported"
 
+# 질문을 vectorstore 또는 websearch로 라우팅
+def route_question(state: GraphState) -> str:
+    print("---ROUTE QUESTION---")
+    question = state["question"]
+    source: RouteQuery = question_router.invoke({"question": question})
+    if source.datasource == WEBSEARCH:
+        print("---ROUTE QUESTION TO WEB SEARCH---")
+        return WEBSEARCH
+    elif source.datasource == "vectorstore":
+        print("---ROUTE QUESTION TO RAG---")
+        return RETRIEVE
+
 # StateGraph 인스턴스 생성 (GraphState 스키마 사용)
 workflow = StateGraph(GraphState)
 
@@ -84,7 +99,16 @@ workflow.add_node(GENERATE, generate)  # 답변 생성 노드
 workflow.add_node(WEBSEARCH, web_search)  # 웹 검색 노드
 
 # 시작점 설정: RETRIEVE 노드부터 시작
-workflow.set_entry_point(RETRIEVE)
+# workflow.set_entry_point(RETRIEVE)
+
+# 질문을 vectorstore 또는 websearch로 라우팅
+workflow.set_conditional_entry_point(
+    route_question,
+    {
+        WEBSEARCH: WEBSEARCH,
+        RETRIEVE: RETRIEVE,
+    },
+)
 
 # 엣지 추가: 노드 간 연결
 workflow.add_edge(RETRIEVE, GRADE_DOCUMENTS)  # 검색 후 문서 평가

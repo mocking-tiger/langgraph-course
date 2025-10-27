@@ -21,8 +21,8 @@ def web_search(state: GraphState) -> Dict[str, Any]:
     print("---WEB SEARCH---")
     # State에서 사용자 질문 추출
     question = state["question"]
-    # State에서 기존 문서 목록 추출 (없을 수도 있음)
-    documents = state["documents"]
+    # State에서 기존 문서 목록 추출 (Router에서 바로 온 경우 없을 수 있음)
+    documents = state.get("documents")
 
     # Tavily API를 사용하여 질문에 대한 웹 검색 수행
     tavily_results = web_search_tool.invoke({"query": question})
