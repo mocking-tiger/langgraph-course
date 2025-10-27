@@ -21,9 +21,11 @@ class AnswerQuestion(BaseModel):
     # search_queries 필드: 답변 개선을 위해 추가 조사가 필요한 1~3개의 검색 쿼리 목록
     search_queries:List[str] = Field(description="1~3 search queries for researching improvements to address the critique of your current answer.")
 
+# ReviseAnswer 스키마: AnswerQuestion을 상속받아 답변 수정 시 사용 (참고문헌 추가)
 class ReviseAnswer(AnswerQuestion):
     """Revise your original answer to your question."""
 
+    # references 필드: 수정된 답변을 뒷받침하는 참고문헌(URL) 목록
     references: List[str] = Field(
         description="Citations motivating your updated answer."
     )
